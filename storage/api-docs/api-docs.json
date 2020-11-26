@@ -1,0 +1,286 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Expense management Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/expenses": {
+            "get": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Get list of expenses",
+                "description": "Returns list of expenses",
+                "operationId": "getExpensesList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExpenseResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Store new expense",
+                "description": "Returns expense data",
+                "operationId": "storeExpense",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreExpense"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExpenseResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/expenses/{id}": {
+            "get": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Get expense information",
+                "description": "Returns expense data",
+                "operationId": "getExpenseById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Expense id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExpenseResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Update existing expense",
+                "description": "Returns updated expense data",
+                "operationId": "updateExpense",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Expense id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateExpense"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExpenseResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Delete existing expense",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteExpense",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Expense id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ExpenseResource": {
+                "title": "Expense Resource",
+                "description": "Expense resource",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Expense"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ExpenseResource"
+                }
+            },
+            "ExpenseResourceCollection": {
+                "title": "Expense Resource Collection",
+                "description": "Expense resource collection",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Expense"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ExpenseResourceCollection"
+                }
+            },
+            "Expense": {
+                "title": "Expense",
+                "description": "Expense model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description of the expense",
+                        "type": "string",
+                        "example": "Laundry bill"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "description": "Value of the expense",
+                        "type": "number",
+                        "format": "float",
+                        "example": "89.97"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Expense"
+                }
+            },
+            "StoreExpense": {
+                "title": "Store Expense request",
+                "description": "Store Expense request body data",
+                "required": [
+                    "description",
+                    "value"
+                ],
+                "properties": {
+                    "description": {
+                        "title": "description",
+                        "description": "Description of the new expense",
+                        "type": "string",
+                        "example": "Laundry bill"
+                    },
+                    "value": {
+                        "title": "value",
+                        "description": "Value of the new expense",
+                        "type": "number",
+                        "format": "float",
+                        "example": "89.97"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateExpense": {
+                "title": "Update Expense request",
+                "description": "Update Expense request body data",
+                "required": [
+                    "description",
+                    "value"
+                ],
+                "properties": {
+                    "description": {
+                        "title": "description",
+                        "description": "Description of the expense to update",
+                        "type": "string",
+                        "example": "Laundry bill"
+                    },
+                    "value": {
+                        "title": "value",
+                        "description": "Value of the expense to update",
+                        "type": "number",
+                        "format": "float",
+                        "example": "89.97"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Expense management",
+            "description": "API Endpoints of Expense management"
+        }
+    ],
+    "security": [
+        []
+    ]
+}
