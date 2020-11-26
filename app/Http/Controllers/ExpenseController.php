@@ -63,6 +63,6 @@ class ExpenseController extends Controller
     public function destroy(Expense $expense)
     {
         $expense->delete();
-        return response()->json(['message' => 'Expense deleted']);
+        return response()->json([]);
     }
 }
